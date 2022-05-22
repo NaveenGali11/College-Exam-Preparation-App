@@ -1,27 +1,17 @@
-import React ,{useEffect} from 'react';
+import React from 'react';
 import {
-  SafeAreaView,
   StatusBar,
-  Text,
 } from 'react-native';
-import { getNotes } from './src/apiFunctions';
+import { RootNavigator } from './src/navigation/MainNavigator';
+import {Provider as PaperProvider} from "react-native-paper"; 
 
 const App = () => {
 
-  useEffect(() => {
-    getNotes().then((res) => {
-      console.log("Notes Response :- ",res.data);
-    },(err) => {
-      console.log("Notes Response Error :- ",err)
-    })
-  },[])
-
-
   return (
-    <SafeAreaView>
+    <PaperProvider>
       <StatusBar barStyle={'dark-content'} />
-      <Text>App Screen</Text>
-    </SafeAreaView>
+      <RootNavigator />    
+    </PaperProvider>
   );
 };
 
