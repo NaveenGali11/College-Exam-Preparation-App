@@ -10,3 +10,7 @@ export const getSingleNotes = async (pdfId) => {
     // https://exampreparationapp.000webhostapp.com/apis/GetSingleNotes.php?id=lRx66pc4yvPpIbcvZvCZ2tFbt
     return await axios.get(BASE_URL + "GetSingleNotes.php?id="+pdfId);
 }
+
+export const teacherLogin = (data) => {
+    return axios.post("https://exampreparationapp.000webhostapp.com/apis/Login",data)
+}
