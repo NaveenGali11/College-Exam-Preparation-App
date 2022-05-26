@@ -1,15 +1,19 @@
 import React, { useEffect, useState } from "react";
-import {View,Text,Button} from "react-native";
+import {View,Text} from "react-native";
 import {getSingleNotes} from "../apiFunctions";
 import PdfViewCard from "../components/PdfViewCard";
+import { ActivityIndicator,Colors,Button } from "react-native-paper";
+import { IMAGE_URL } from "../apiUrls";
 
 const PdfDescriptionPage = (props) => {
   const [singlePdf, setSinglePdf] = useState();
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
          getSingleNotes(props.route.params.pdfId).then((res) => {
           console.log("Res :- ",res.data.data[0])
           setSinglePdf(res.data.data[0]);
+          setIsLoading(false);
         },(err) => {
           console.log("Error :- ",err)
         })
@@ -17,7 +21,17 @@ const PdfDescriptionPage = (props) => {
 
     return (
         <View>
-            <PdfViewCard pdfDetails={singlePdf} />
+          {
+            isLoading ? <ActivityIndicator animating={true} color={Colors.red800} /> : 
+            <View>
+              <PdfViewCard pdfDetails={singlePdf} />
+              <Button onPress={() => props.navigation.navigate("PdfView",{
+                pdfUrl :singlePdf.FileUrl
+              })}>
+                View in Full Screen
+              </Button>
+            </View>
+          }
         </View>
     )
 }

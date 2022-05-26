@@ -19,6 +19,8 @@ target 'ExamPreparationApp' do
     :app_path => "#{Pod::Config.instance.installation_root}/.."
   )
 
+  pod 'react-native-pdf', :path => '../node_modules/react-native-pdf'
+
   target 'ExamPreparationAppTests' do
     inherit! :complete
     # Pods for testing
