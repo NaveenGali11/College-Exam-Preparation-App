@@ -3,7 +3,6 @@ import {View,Text} from "react-native";
 import {getSingleNotes} from "../apiFunctions";
 import PdfViewCard from "../components/PdfViewCard";
 import { ActivityIndicator,Colors,Button } from "react-native-paper";
-import { IMAGE_URL } from "../apiUrls";
 
 const PdfDescriptionPage = (props) => {
   const [singlePdf, setSinglePdf] = useState();
@@ -27,7 +26,7 @@ const PdfDescriptionPage = (props) => {
               <PdfViewCard pdfDetails={singlePdf} />
               <Button onPress={() => props.navigation.navigate("PdfView",{
                 pdfUrl :singlePdf.FileUrl
-              })}>
+              })} mode="contained" style={{margin : 20}}>
                 View in Full Screen
               </Button>
             </View>
