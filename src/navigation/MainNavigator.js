@@ -12,7 +12,7 @@ export const RootNavigator = () => {
     return (
         <NavigationContainer>
             <Stack.Navigator>
-               <Stack.Screen name="Home" component={Home} />
+               <Stack.Screen name="Home" component={Home} options={{headerShown : false}} />
                <Stack.Screen name="PdfDesc" component={PdfDescriptionPage} />
                <Stack.Screen name="PdfView" component={PdfViewPage} />
             </Stack.Navigator> 

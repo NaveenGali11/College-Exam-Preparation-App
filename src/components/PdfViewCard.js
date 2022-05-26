@@ -1,10 +1,11 @@
-import React, { useEffect } from "react";
+import React, { useEffect,useState } from "react";
 import { Text, View ,Dimensions,StyleSheet,Image} from "react-native";
-import { Chip, Card, Title,Divider, Colors, Button } from "react-native-paper";
+import { Chip, Card, Title,Divider, Colors, ProgressBar } from "react-native-paper";
 import {  IMAGE_URL } from "../apiUrls";
-import {WebView} from "react-native-webview";
+import Pdf from "react-native-pdf";
 
 const PdfViewCard = (props) => {
+
   useEffect(() => {
     console.log("Props in View Card :- ", props.pdfDetails);
   },[])
@@ -18,7 +19,6 @@ const PdfViewCard = (props) => {
         <Card.Content>
           <Title style={styles.Heading}>{props.pdfDetails.FileName}</Title>
         </Card.Content>
-        {/* <Card.Cover source={{ uri: 'https://picsum.photos/700' }} /> */}
         <View style={styles.detailsSection}>
           <Chip mode="flat">{props.pdfDetails.SubjectName}</Chip>
           <Chip mode="flat">{props.pdfDetails.SubjectCode}</Chip>
@@ -38,7 +38,24 @@ const PdfViewCard = (props) => {
         </View>
       </Card>
       <View style={{height : 300}}>
-        <WebView source={{uri : "http://docs.google.com/gview?embedded=true&url=" + fileURl}} />
+        {/* <WebView source={{uri : "http://docs.google.com/gview?embedded=true&url=" + fileURl}} startInLoadingState={true} /> */}
+        <Pdf
+          source={{uri : fileURl}}
+          onLoadComplete={(numberOfPages,filePath) => {
+            console.log("Number of Pages :- ",numberOfPages)
+          }}
+          onPageChanged={(page) => {
+            console.log("Current PAge",page)
+          }}
+          onError = {(error) => {
+            console.log("Error :- ",error)
+          }}
+          onPressLink = {(uri) => {
+            console.log("Link PAssed :- ",uri)
+          }}
+          style={styles.pdfStyle}
+          trustAllCerts ={false}
+        />
       </View>
     </View>
   )
@@ -51,8 +68,8 @@ const styles = StyleSheet.create({
   },
   pdfStyle:{
     flex:1,
-    width:Dimensions.get('window').width / 4,
-    height:Dimensions.get('window').height / 4,
+    width:Dimensions.get('window').width,
+    height:Dimensions.get('window').height ,
   },
   detailsSection : {
     flex : 1,
@@ -100,6 +117,9 @@ const styles = StyleSheet.create({
     elevation: 7,
     height : 250
   },
+  loadingSpinner :{ 
+    marginTop : 100,
+  }
 })
 
 export default PdfViewCard;

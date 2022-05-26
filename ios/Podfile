@@ -21,6 +21,8 @@ target 'ExamPreparationApp' do
 
   pod 'react-native-pdf', :path => '../node_modules/react-native-pdf'
 
+  pod 'RNVectorIcons', :path => '../node_modules/react-native-vector-icons'
+
   target 'ExamPreparationAppTests' do
     inherit! :complete
     # Pods for testing
