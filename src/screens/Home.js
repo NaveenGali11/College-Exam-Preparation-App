@@ -1,13 +1,17 @@
-import React,{useState,useEffect} from "react";
-import {View,StyleSheet,ActivityIndicator,FlatList} from "react-native";
-import { getNotes } from "../apiFunctions";
+import React,{useState,useEffect,useCallback,useRef,useMemo} from "react";
+import {View,StyleSheet,ActivityIndicator,FlatList,Text,ToastAndroid} from "react-native";
+import { getNotes, teacherLogin } from "../apiFunctions";
 import PdfCard from "../components/PdfCard";
-import { Searchbar,Colors } from "react-native-paper";
-
+import { Searchbar,Colors,FAB,TextInput, Button } from "react-native-paper";
+import RBSheet from "react-native-raw-bottom-sheet";
+import axios from "axios";
 
 const Home = (props) => {
     const [pdfs, setPdfs] = useState([]);
     const [isLoading,setIsLoading] = useState(true);
+
+
+    const refRBSheet = useRef();
 
     useEffect(() => {
         getNotes().then((res) => {
@@ -19,9 +23,9 @@ const Home = (props) => {
         })
     },[])
 
-    console.log("Pdfs :- ",pdfs)
 
     return (
+        <>
             <View>
                 {
                     isLoading ? <ActivityIndicator animating={true} color={Colors.red800} size="large" /> : 
@@ -36,9 +40,10 @@ const Home = (props) => {
                             }) } />}
                         />
                     </>
-                }
-               
+                }            
             </View>
+            <FAB style={styles.fab} large icon="upload" label="Upload Pdf" onPress={() => refRBSheet.current.open()} />
+        </>
     )
 }
 
@@ -46,6 +51,40 @@ const styles = StyleSheet.create({
     searchBarContainer : {
         margin : 10,
         borderRadius : 10,
+    },
+    fab : {
+        position : "absolute",
+        margin : 16,
+        right : 0,
+        bottom : 10,
+    },
+    contentContainer:{
+        flex : 1,
+      alignItems  : "center"
+    },
+    loginContainer : {
+        margin : 10
+    },
+    loginTextContainer : {
+        marginBottom : 10
+    },
+    loginText : {
+        fontSize : 20,
+        fontWeight : "bold",
+        textAlign : "center"
+    },
+    mobileInputContainer :{
+        marginBottom : 10,
+        borderRadius : 10,
+        overflow : "hidden"
+    },
+    passwordInputContainer : {
+        marginBottom : 10,
+        borderRadius : 10,
+        overflow : "hidden"
+    },
+    loginButtonContainer : {
+        marginHorizontal : 30
     }
 })
 
